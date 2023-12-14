@@ -23,8 +23,14 @@ typedef struct s_game_textures
 	mlx_image_t	*exit;
 }	t_textures;
 
+typedef struct s_cover {
+	mlx_image_t	*cover;
+} t_cover;
+
 typedef struct s_map {
-	char map[ROWS][COLS];
+	char **map;
+    	int rows;
+    	int cols;
 } t_map;
 
 typedef struct s_exit_tile {
@@ -49,7 +55,7 @@ typedef struct s_window {
 	t_map			map;
 	t_exit_tile		exit_tile;
 	t_textures		texture;
-	
+	t_cover			cover_tile;
 } t_win;
 
 #endif
