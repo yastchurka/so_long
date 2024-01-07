@@ -1,31 +1,6 @@
 #include "include/MLX42/MLX42.h"
 #include "so_long.h"
 
-/* void display_map(void *param) {
-	t_win *win;
-	int y;
-	int x;
-
-	y = 0;
-	win = param;
-	while (y < ROWS) 
-	{
-		x = 0;
-		while (x < COLS) 
-		{
-			if (x == win->pos_player.pos_x && y == win->pos_player.pos_y)
-			win->map.map[y][x] = 'P';
-			else if (!(x == win->pos_player.pos_x && y == win->pos_player.pos_y) &&
-				win->map.map[y][x] == 'P')
-					win->map.map[y][x] = '0';
-			printf("%c", win->map.map[y][x]);
-			x++;
-		}
-		printf("\n");
-		y++;
-	}
-} */
-
 void assignPlayerPos(t_win *win, int y, int x)
 {
 	win->pos_player.pos_x = x;
@@ -72,10 +47,7 @@ void letsTry(t_win *win, char map_byte, int ix, int iy)
 	else if (map_byte == 'E')
 		RenderAndAssignExitPos(win, iy, ix);
 	else if (map_byte == 'C')
-	{
-		//win->collect.numberOfCollectables++;
 		RenderAndAssignCollPos(win, iy, ix, map_byte);
-	}
 	else if (map_byte == '0')
 	{
 		win->map.map[iy][ix] = map_byte;
@@ -86,7 +58,6 @@ void letsTry(t_win *win, char map_byte, int ix, int iy)
 		win->map.map[iy][ix] = map_byte;
 		renderTheWall(win, iy, ix);
 	}
-	
 }
 
 void checkTileConditions(t_win *win)
@@ -158,41 +129,32 @@ void renderTheMap(void *param)
 
 void my_keyhook(mlx_key_data_t keydata, void *param)
 {
-	t_win *win;
+	t_win	*win;
+	int		new_y;
+    int		new_x;
+
 	win = param;
-
-	if ((keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS))
-		mlx_close_window(win->mlx_ptr);
-	if ((keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS)
-	&& win->map.map[win->pos_player.pos_y - 1][win->pos_player.pos_x] != '1')
-	{
-		win->pos_player.pos_y--;
-		win->texture.character->instances[0].y -= 32;
-	}
-	if ((keydata.key == MLX_KEY_S && keydata.action == MLX_PRESS)
-	&& win->map.map[win->pos_player.pos_y + 1][win->pos_player.pos_x] != '1')
-	{
-		win->pos_player.pos_y++;
-		win->texture.character->instances[0].y += 32;
-	}
-	if ((keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
-	&& win->map.map[win->pos_player.pos_y][win->pos_player.pos_x - 1] != '1')
-	{
-		win->pos_player.pos_x--;
-		win->texture.character->instances[0].x -= 32;
-	}
-	if ((keydata.key == MLX_KEY_D && keydata.action == MLX_PRESS)
-	&& win->map.map[win->pos_player.pos_y][win->pos_player.pos_x + 1] != '1')
-	{
-		win->pos_player.pos_x++;
-		win->texture.character->instances[0].x += 32;
-	}
-	//printf("Y: %d, X: %d\n", win->pos_player.pos_y, win->pos_player.pos_x);
+	new_y = win->pos_player.pos_y;
+	new_x = win->pos_player.pos_x;
+    if ((keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS))
+        mlx_close_window(win->mlx_ptr);
+    if (keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS)
+        new_y--;
+    if (keydata.key == MLX_KEY_S && keydata.action == MLX_PRESS)
+        new_y++;
+    if (keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
+        new_x--;
+    if (keydata.key == MLX_KEY_D && keydata.action == MLX_PRESS)
+        new_x++;
+    if (win->map.map[new_y][new_x] != '1')
+    {
+        win->pos_player.pos_y = new_y;
+        win->pos_player.pos_x = new_x;
+        win->texture.character->instances[0].y = new_y * 32;
+        win->texture.character->instances[0].x = new_x * 32;
+    }
 	checkTileConditions(win);
-	//display_map(&win);
 }
-
-// -----------------------------------------------------------------------------
 
 void initializeTextures(t_win *win)
 {
@@ -240,7 +202,6 @@ void determineMapSize(t_win *win)
 
 	ix = 0;
 	iy = 0;
-	win->collect.numberOfCollectables = 0;
 	fd = open("map.ber", O_RDONLY);
 	if (fd == -1) 
 	{
@@ -278,6 +239,7 @@ int32_t main(void)
 	int			countMoves;
 	
 	countMoves = 0;
+	win.collect.numberOfCollectables = 0;
 	determineMapSize(&win);
  	//mlx_set_setting(MLX_MAXIMIZED, false);
 	initializeTextures(&win);

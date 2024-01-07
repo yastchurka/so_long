@@ -1,28 +1,25 @@
-NAME = so_long
-# CHECK = checker
+CC = cc
+#CFLAGS = -Wall -Wextra -std=c11
+LDFLAGS = -ldl -lglfw -pthread -lm
+TARGET = my_program
 
-SRCS = test.c\
-
+SRCS = test2.c \
+	renderElements.c \
+	renderTheGrid.c \
+	checkIfPassable.c \
+	determineMapSize.c \
+	
 OBJS = $(SRCS:.c=.o)
 
-CC = libmlx42.a -ldl -lglfw -pthread -lm
+.PHONY: all clean
 
-all: $(NAME)
+all: $(TARGET)
 
-$(NAME): $(OBJS)
-		$(CC) $(OBJS) -o $(NAME)
+$(TARGET): $(OBJS)
+	$(CC) $(OBJS) libmlx42.a $(LDFLAGS) -o $(TARGET)
 
-# $(CHECK): $(CHECK_OBJS)
-# 		$(CC) $(CHECK_OBJS) libft/libft.a -o $(CHECK)
+%.o: %.c
+	$(CC) -c $< -o $@
 
 clean:
-		rm -f $(OBJS)
-#rm -f $(CHECK_OBJS)
-
-fclean: clean
-		rm -f $(NAME)
-#rm -f $(CHECK)
-
-re: fclean all
-
-.PHONY: all clean fclean re
+	rm -f $(OBJS) $(TARGET)

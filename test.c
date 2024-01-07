@@ -85,36 +85,24 @@ void renderTheFloor(t_win *win, int y, int x)
 	}
 } */
 
-void checkTileConditions(void *param) 
+void checkTileConditions(t_win *win) 
 {
-	t_win *win;
-	win = param;
-	
-	
 	//checkConditions(win);
 	if (win->map.map[win->pos_player.pos_y][win->pos_player.pos_x] == 'C') 
 	{
-		write(1, "hello", 5);
 		win->collect.numberOfCollectables--;
 		win->map.map[win->pos_player.pos_y][win->pos_player.pos_x] = '0';
-		if (mlx_image_to_window(win->mlx_ptr, win->texture.floor, win->pos_player.pos_x * 32, win->pos_player.pos_y * 32) < 0)
-		{
-			
-			exit(EXIT_FAILURE);
-		}
 		//win->texture.[win->pos_player.pos_y * 32][win->pos_player.pos_x * 32] = '0';
 	}
-	if (win->exit_tile.pos_x == win->pos_player.pos_x &&
-			win->exit_tile.pos_y == win->pos_player.pos_y) 
+	if (win->exit_tile.pos_x == win->pos_player.pos_x 
+	&& win->exit_tile.pos_y == win->pos_player.pos_y) 
 	{
-		write(1, "hello!!!!!", 5);
 		if (win->collect.numberOfCollectables == 0)
 		{
 			printf("You won!\n");
 			exit(0);
 		}
 	}
-	//printf("Y: %d, X: %d\n", win->pos_player.pos_y, win->pos_player.pos_x);
 }
 
 void renderTheMap(void *param) 
@@ -154,7 +142,10 @@ void renderTheMap(void *param)
 		else if (map_byte == 'E')
 			RenderAndAssignExitPos(win, iy, ix);
 		else if (map_byte == 'C')
+		{
+			renderTheFloor(win, iy, ix);
 			RenderAndAssignCollPos(win, iy, ix, map_byte);
+		}
 		else if (map_byte == '0')
 		{
 			win->map.map[iy][ix] = map_byte;
@@ -214,8 +205,8 @@ void my_keyhook(mlx_key_data_t keydata, void *param)
 		win->pos_player.pos_x++;
 		win->texture.character->instances[0].x += 32;
 	}
-	printf("Y: %d, X: %d\n", win->pos_player.pos_y, win->pos_player.pos_x);
-	//checkTileConditions(&win);
+	//printf("Y: %d, X: %d\n", win->pos_player.pos_y, win->pos_player.pos_x);
+	checkTileConditions(win);
 	//display_map(&win);
 } 
 

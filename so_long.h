@@ -11,9 +11,6 @@
 #include <stdbool.h>
 #include "include/MLX42/MLX42.h"
 
-#define COLS 12
-#define ROWS 7
-
 typedef struct s_game_textures
 {
 	mlx_image_t	*character;
@@ -58,4 +55,29 @@ typedef struct s_window {
 	t_cover			cover_tile;
 } t_win;
 
+//renderTheGrid.c - norminette to solve
+void	let_try(t_win *win, char map_byte, int ix, int iy);
+void	open_map_file(int *fd);
+void	close_map_file(int fd);
+void	render_map(t_win *win);
+void	change_instances(t_win *win, int y, int x);
+void	check_tile_conditions(t_win *win);
+
+//checkIfPassable.c
+void checkIfSerroundedByOnes(t_win *win);
+void checkOtherSignes(t_win *win);
+void checkConditions(void *param);
+bool dfs(t_win *win, bool visited[win->map.rows][win->map.cols], int row, int col);
+bool checkIfPassable(t_win *win);
+//renderElements.c
+void	render_floor(t_win *win, int y, int x);
+void render_assign_exit_pos(t_win *win, int y, int x);
+void render_assign_coll_pos(t_win *win, int y, int x, char map_byte);
+void render_wall(t_win *win, int y, int x);
+void render_cover_tiles(t_win *win);
+void assign_player_pos(t_win *win, int y, int x);
+//determineMapSize.c
+void	determine_map_size(t_win *win);
+void	malloc_map(t_win *win, int ix, int iy);
+void	read_update_map(t_win *win, int *ix, int *iy, ssize_t bytesRead, char map_byte);
 #endif
