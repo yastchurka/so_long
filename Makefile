@@ -9,6 +9,7 @@ SRCS = test3.c \
 	determineMapSize.c \
 	renderTheGrid.c \
 	renderElements.c \
+	moves.c 
 	
 OBJS = $(SRCS:.c=.o)
 

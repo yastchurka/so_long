@@ -86,4 +86,10 @@ void	render_cover_tiles(t_win *win);
 void	render_floor(t_win *win, int y, int x);
 void	render_wall(t_win *win, int y, int x);
 
+//moves.c
+void    move_up(t_win *win);
+void    move_left(t_win *win);
+void    move_right(t_win *win);
+void    move_down(t_win *win);
+
 #endif 
