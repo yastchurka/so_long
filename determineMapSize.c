@@ -21,7 +21,7 @@ void	close_map_file(int fd)
 
 void	malloc_map(t_win *win, int ix, int iy)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	win->map.rows = iy;

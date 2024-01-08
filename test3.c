@@ -1,25 +1,14 @@
 #include "so_long.h"
 
-void my_keyhook(mlx_key_data_t keydata, void *param)
+void move_up(t_win *win)
 {
-	t_win	*win;
 	int		new_y;
     int		new_x;
 
-	win = param;
 	new_y = win->pos_player.pos_y;
 	new_x = win->pos_player.pos_x;
-    if ((keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS))
-        mlx_close_window(win->mlx_ptr);
-    if (keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS)
-        new_y--;
-    if (keydata.key == MLX_KEY_S && keydata.action == MLX_PRESS)
-        new_y++;
-    if (keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
-        new_x--;
-    if (keydata.key == MLX_KEY_D && keydata.action == MLX_PRESS)
-        new_x++;
-    if (win->map.map[new_y][new_x] != '1'&& keydata.action == MLX_PRESS)
+	new_y--;
+	if (win->map.map[new_y][new_x] != '1')
     {
         win->pos_player.pos_y = new_y;
         win->pos_player.pos_x = new_x;
@@ -27,6 +16,77 @@ void my_keyhook(mlx_key_data_t keydata, void *param)
         win->texture.character->instances[0].x = new_x * 32;
 		printf("Moves moved: %d\n", win->moves_number++ );
     }
+}
+
+void move_down(t_win *win)
+{
+	int		new_y;
+    int		new_x;
+
+	new_y = win->pos_player.pos_y;
+	new_x = win->pos_player.pos_x;
+	new_y++;
+	if (win->map.map[new_y][new_x] != '1')
+    {
+        win->pos_player.pos_y = new_y;
+        win->pos_player.pos_x = new_x;
+        win->texture.character->instances[0].y = new_y * 32;
+        win->texture.character->instances[0].x = new_x * 32;
+		printf("Moves moved: %d\n", win->moves_number++ );
+    }
+}
+
+void move_left(t_win *win)
+{
+	int		new_y;
+    int		new_x;
+
+	new_y = win->pos_player.pos_y;
+	new_x = win->pos_player.pos_x;
+	new_x--;
+	if (win->map.map[new_y][new_x] != '1')
+    {
+        win->pos_player.pos_y = new_y;
+        win->pos_player.pos_x = new_x;
+        win->texture.character->instances[0].y = new_y * 32;
+        win->texture.character->instances[0].x = new_x * 32;
+		printf("Moves moved: %d\n", win->moves_number++ );
+    }
+}
+
+void move_right(t_win *win)
+{
+	int		new_y;
+    int		new_x;
+
+	new_y = win->pos_player.pos_y;
+	new_x = win->pos_player.pos_x;
+	new_x++;
+	if (win->map.map[new_y][new_x] != '1')
+    {
+        win->pos_player.pos_y = new_y;
+        win->pos_player.pos_x = new_x;
+        win->texture.character->instances[0].y = new_y * 32;
+        win->texture.character->instances[0].x = new_x * 32;
+		printf("Moves moved: %d\n", win->moves_number++ );
+    }
+}
+
+void my_keyhook(mlx_key_data_t keydata, void *param)
+{
+	t_win	*win;
+
+	win = param;
+    if ((keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS))
+        mlx_close_window(win->mlx_ptr);
+    if (keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS)
+		move_up(win);
+    if (keydata.key == MLX_KEY_S && keydata.action == MLX_PRESS)
+        move_down(win);//new_y++;
+    if (keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
+        move_left(win);//new_x--;
+    if (keydata.key == MLX_KEY_D && keydata.action == MLX_PRESS)
+        move_right(win);//new_x++;
 	check_tile_conditions(win);
 }
 
@@ -63,10 +123,9 @@ int32_t main(void)
 	render_map(&win);
   	if (!check_if_passable(&win))
 	{
-		printf("Wrong map file");
-		EXIT_FAILURE;
-	} 
- 	mlx_key_hook(win.mlx_ptr, &my_keyhook, &win);
+		printf("hello");
+	}
+	mlx_key_hook(win.mlx_ptr, &my_keyhook, &win);
 	mlx_loop(win.mlx_ptr);
 	mlx_terminate(win.mlx_ptr);
 	return (EXIT_SUCCESS); 

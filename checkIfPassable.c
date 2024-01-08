@@ -79,45 +79,44 @@ void	check_conditions(void *param)
 	check_if_serrounded_by_ones(win);
 }
 
-bool	dfs(t_win *win, bool visited[win->map.rows][win->map.cols], int row, int col)
+bool	dfs(t_win *win, int row, int col)
 {
-	if (win->exit_tile.pos_x == col && win->exit_tile.pos_y == row)
-		return (true);
-	if (row < 1 || row >= win->map.rows - 1 || col < 1 
-		|| col >= win->map.cols - 1 || win->map.map[row][col] == '1' 
-		|| visited[row][col])
-		return (false);
-	visited[row][col] = true;
-	if (dfs(win, visited, row - 1, col) 
-		|| dfs(win, visited, row + 1, col)
-		|| dfs(win, visited, row, col - 1)
-		|| dfs(win, visited, row, col + 1)) 
-		return (true);
-	return (false);
+    char original_value = win->map.map[row][col]; // Save the original value
+    win->map.map[row][col] = 'V'; // Mark the cell as visited
+
+    if (win->exit_tile.pos_x == col && win->exit_tile.pos_y == row)
+	{
+        win->map.map[row][col] = original_value; // Revert back to original value
+        return true; // Path found
+    }
+    if (row < 1 || row >= win->map.rows - 1 || col < 1 || col >= win->map.cols - 1 ||
+        original_value == '1' || original_value == 'V') {
+        win->map.map[row][col] = original_value; // Revert back to original value
+        return false; // Out of bounds, obstacle, or already visited
+    }
+    if (dfs(win, row - 1, col) || dfs(win, row + 1, col) 
+		|| dfs(win, row, col - 1) || dfs(win, row, col + 1)) 
+        return true; // Path found in one of the directions
+    win->map.map[row][col] = original_value; // Revert back to original value
 }
 
 bool	check_if_passable(t_win *win)
 {
-	bool	visited[win->map.rows][win->map.cols];
 	int		x;
 	int		y;
 
 	y = 0;
 	check_conditions(win);
-	if (win->pos_player.pos_y < 1 || win->pos_player.pos_y >= win->map.rows 
+	/* if (win->pos_player.pos_y < 1 || win->pos_player.pos_y >= win->map.rows 
 		|| win->pos_player.pos_x < 1 || win->pos_player.pos_x >= win->map.cols
 		|| win->exit_tile.pos_x < 1 || win->exit_tile.pos_y >= win->map.rows 
 		|| win->exit_tile.pos_y < 1 || win->exit_tile.pos_x >= win->map.cols)
-		return (false);
-	while (y < win->map.rows)
-	{
-		x = 0;
-		while (x < win->map.cols) 
-		{
-			visited[y][x] = false;
-			x++;
-		}
-		y++;
-	}
-	return (dfs(win, visited, win->pos_player.pos_y, win->pos_player.pos_x));
+		exit(EXIT_FAILURE); */
+	x = win->pos_player.pos_x;
+    y = win->pos_player.pos_y;
+
+    // Check if path exists
+    if (dfs(win, y, x) == false);
+		printf("Chuj mi w dupe");
+	return true;
 }

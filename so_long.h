@@ -60,7 +60,7 @@ typedef struct s_window {
 void check_if_serrounded_by_ones(t_win *win);
 void check_other_signes(t_win *win);
 void check_conditions(void *param);
-bool dfs(t_win *win, bool visited[win->map.rows][win->map.cols], int row, int col);
+bool dfs(t_win *win, int row, int col);
 bool check_if_passable(t_win *win);
 
 //assignPositions.c
