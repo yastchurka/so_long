@@ -1,4 +1,3 @@
-#include "include/MLX42/MLX42.h"
 #include "so_long.h"
 
 void assignPlayerPos(t_win *win, int y, int x)

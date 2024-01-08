@@ -1,13 +1,14 @@
 CC = cc
 #CFLAGS = -Wall -Wextra -std=c11
 LDFLAGS = -ldl -lglfw -pthread -lm
-TARGET = my_program
+TARGET = so_long
 
-SRCS = test2.c \
-	renderElements.c \
-	renderTheGrid.c \
+SRCS = test3.c \
 	checkIfPassable.c \
+	assignPositions.c \
 	determineMapSize.c \
+	renderTheGrid.c \
+	renderElements.c \
 	
 OBJS = $(SRCS:.c=.o)
 

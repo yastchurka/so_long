@@ -1,5 +1,24 @@
 #include "so_long.h"
 
+void	open_map_file(int *fd)
+{
+	*fd = open("map.ber", O_RDONLY);
+	if (*fd == -1)
+	{
+		perror("Error: could not open the map.");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	close_map_file(int fd)
+{
+	if (close(fd) == -1)
+	{
+		perror("Error closing file");
+		exit(EXIT_FAILURE);
+	}
+}
+
 void	malloc_map(t_win *win, int ix, int iy)
 {
 	int i;

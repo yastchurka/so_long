@@ -35,25 +35,6 @@ void	lets_try(t_win *win, char map_byte, int ix, int iy)
 	}
 }
 
-void	open_map_file(int *fd)
-{
-	*fd = open("map.ber", O_RDONLY);
-	if (*fd == -1)
-	{
-		perror("Error: could not open the map.");
-		exit(EXIT_FAILURE);
-	}
-}
-
-void	close_map_file(int fd)
-{
-	if (close(fd) == -1)
-	{
-		perror("Error closing file");
-		exit(EXIT_FAILURE);
-	}
-}
-
 void	render_map(t_win *win)
 {
 	int		fd;
@@ -93,6 +74,7 @@ void	change_instances(t_win *win, int y, int x)
 
 void	check_tile_conditions(t_win *win)
 {
+	
 	if (win->map.map[win->pos_player.pos_y][win->pos_player.pos_x] == 'C') 
 	{
 		win->cover_tile.cover->instances[win->collect.numberOfCollectables - 1].x = win->pos_player.pos_x * 32;
