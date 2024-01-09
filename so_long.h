@@ -26,8 +26,8 @@ typedef struct s_cover {
 
 typedef struct s_map {
 	char **map;
-    	int rows;
-    	int cols;
+    int rows;
+    int cols;
 } t_map;
 
 typedef struct s_exit_tile {
@@ -44,6 +44,11 @@ typedef struct s_collectable {
 	int numberOfCollectables;
 } t_collect;
 
+typedef struct s_visited {
+	char **visited;
+} t_visit;
+
+
 typedef struct s_window {
 	mlx_t			*mlx_ptr;
 	void			*win_ptr;
@@ -54,6 +59,7 @@ typedef struct s_window {
 	t_textures		texture;
 	t_cover			cover_tile;
 	int				moves_number;
+	t_visit			visited;
 } t_win;
 
 //checkIfPassable.c
