@@ -70,17 +70,22 @@ void	check_other_signes(t_win *win)
 	}
 }
 
-void	check_conditions(void *param)
+void	check_if_passable(void *param)
 {
 	t_win	*win;
 
 	win = param;
+	int col = win->pos_player.pos_x;
+    int row = win->pos_player.pos_y;
 	check_other_signes(win);
 	check_if_serrounded_by_ones(win);
+	if (!dfs(win, row, col))
+		exit(EXIT_FAILURE);
 }
 
 bool	dfs(t_win *win, int row, int col)
 {
+	
     char original_value = win->map.map[row][col]; // Save the original value
     win->map.map[row][col] = 'V'; // Mark the cell as visited
 
@@ -98,25 +103,11 @@ bool	dfs(t_win *win, int row, int col)
 		|| dfs(win, row, col - 1) || dfs(win, row, col + 1)) 
         return true; // Path found in one of the directions
     win->map.map[row][col] = original_value; // Revert back to original value
+	return false;
 }
 
-bool	check_if_passable(t_win *win)
-{
-	int		x;
-	int		y;
-
-	y = 0;
-	check_conditions(win);
 	/* if (win->pos_player.pos_y < 1 || win->pos_player.pos_y >= win->map.rows 
 		|| win->pos_player.pos_x < 1 || win->pos_player.pos_x >= win->map.cols
 		|| win->exit_tile.pos_x < 1 || win->exit_tile.pos_y >= win->map.rows 
 		|| win->exit_tile.pos_y < 1 || win->exit_tile.pos_x >= win->map.cols)
 		exit(EXIT_FAILURE); */
-	x = win->pos_player.pos_x;
-    y = win->pos_player.pos_y;
-
-    // Check if path exists
-    if (dfs(win, y, x) == false);
-		printf("Chuj mi w dupe");
-	return true;
-}

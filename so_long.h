@@ -57,11 +57,10 @@ typedef struct s_window {
 } t_win;
 
 //checkIfPassable.c
+void check_if_passable(void *param);
 void check_if_serrounded_by_ones(t_win *win);
 void check_other_signes(t_win *win);
-void check_conditions(void *param);
 bool dfs(t_win *win, int row, int col);
-bool check_if_passable(t_win *win);
 
 //assignPositions.c
 void assign_player_pos(t_win *win, int y, int x);

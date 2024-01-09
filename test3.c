@@ -49,10 +49,7 @@ int32_t main(void)
 	initialize_textures(&win);
 	win.texture.character = mlx_texture_to_image(win.mlx_ptr, character);
 	render_map(&win);
-  	if (!check_if_passable(&win))
-	{
-		printf("hello");
-	}
+  	//check_if_passable(&win);
 	mlx_key_hook(win.mlx_ptr, &my_keyhook, &win);
 	mlx_loop(win.mlx_ptr);
 	mlx_terminate(win.mlx_ptr);
