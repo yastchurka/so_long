@@ -75,8 +75,8 @@ void render_assign_coll_pos(t_win *win, int y, int x, char map_byte);
 
 //determineMapSize.c
 void	determine_map_size(t_win *win);
-void	malloc_map(t_win *win, int ix, int iy);
-void	read_update_map(t_win *win, int *ix, int *iy, ssize_t bytesRead, char map_byte);
+void	malloc_map(t_win *win, int iy);
+void	read_update_map(t_win *win, int *ix, int *iy, char map_byte);
 void	open_map_file(int *fd);
 void	close_map_file(int fd);
 

@@ -19,7 +19,7 @@ void	close_map_file(int fd)
 	}
 }
 
-void	malloc_map(t_win *win, int ix, int iy)
+void	malloc_map(t_win *win, int iy)
 {
 	int	i;
 
@@ -33,7 +33,7 @@ void	malloc_map(t_win *win, int ix, int iy)
     }
 }
 
-void	read_update_map(t_win *win, int *ix, int *iy, ssize_t bytesRead, char map_byte)
+void	read_update_map(t_win *win, int *ix, int *iy, char map_byte)
 {
     win->map.cols = *ix;
     if (map_byte == '\n') {
@@ -58,9 +58,9 @@ void	determine_map_size(t_win *win)
 	while ((bytesRead = read(fd, buffer, sizeof(buffer))) > 0)
 	{
 		map_byte = buffer[0];
-		read_update_map(win, &ix, &iy, bytesRead, map_byte);
+		read_update_map(win, &ix, &iy, map_byte);
 	}
-	malloc_map(win, ix, iy);
+	malloc_map(win, iy);
 	if (bytesRead == -1) 
 	{
 		perror("Error reading from file"); // CHANGE !

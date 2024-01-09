@@ -1,5 +1,5 @@
-CC = cc
-#CFLAGS = -Wall -Wextra -std=c11
+CC = cc -Wextra -Werror -Wall
+#CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -ldl -lglfw -pthread -lm
 TARGET = so_long
 
@@ -18,7 +18,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(OBJS) libmlx42.a $(LDFLAGS) -o $(TARGET)
+	$(CC) $(CFLAGS) $(OBJS) libmlx42.a $(LDFLAGS) -o $(TARGET)
 
 %.o: %.c
 	$(CC) -c $< -o $@

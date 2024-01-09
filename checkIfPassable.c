@@ -102,6 +102,7 @@ void	check_if_passable(void *param)
     }
 	if (!dfs(win, win->pos_player.pos_y, win->pos_player.pos_x))
 		exit(EXIT_FAILURE);
+	free(win->visited.visited);
 }
 
 bool dfs(t_win *win, int row, int col)
@@ -121,9 +122,3 @@ bool dfs(t_win *win, int row, int col)
         return true; // Path found in one of the directions
     return false;
 }
-
-	/* if (win->pos_player.pos_y < 1 || win->pos_player.pos_y >= win->map.rows 
-		|| win->pos_player.pos_x < 1 || win->pos_player.pos_x >= win->map.cols
-		|| win->exit_tile.pos_x < 1 || win->exit_tile.pos_y >= win->map.rows 
-		|| win->exit_tile.pos_y < 1 || win->exit_tile.pos_x >= win->map.cols)
-		exit(EXIT_FAILURE); */
